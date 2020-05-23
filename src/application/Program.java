@@ -1,5 +1,4 @@
 package application;
-
 import java.util.Date;
 
 import model.entities.Department;
