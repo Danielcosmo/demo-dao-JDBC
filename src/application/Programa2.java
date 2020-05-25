@@ -21,10 +21,16 @@ public class Programa2 {
 		for(Department d : list) {
 			System.out.println(d);
 		}
-		System.out.println("Insert ");
+	/*	System.out.println("Insert ");
 		Department newDp = new Department(null, "Stephen King");
 		dpDao.insert(newDp);
 		System.out.println("Inserted! New Id: "+ newDp.getId());
+	*/
+		System.out.println("Update");
+		dp = dpDao.findById(5);
+		dp.setName("Edgard Allan Poe");
+		dpDao.update(dp);
+		System.out.println("Update completed");
 		
 	}
 

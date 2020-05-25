@@ -24,28 +24,27 @@ public class DepartmentDaoImplJDBC implements DepartmentDao {
 	@Override
 	public void insert(Department dp) {
 		PreparedStatement st = null;
-		
+
 		try {
 			st = conn.prepareStatement("INSERT INTO department(Name) value (?)", Statement.RETURN_GENERATED_KEYS);
 			st.setString(1, dp.getName());
-			
+
 			int rowsAffected = st.executeUpdate();
-			
-			if(rowsAffected > 0) {
-				
+
+			if (rowsAffected > 0) {
+
 				ResultSet rs = st.getGeneratedKeys();
-				if(rs.next()) {
+				if (rs.next()) {
 					int id = rs.getInt(1);
 					dp.setId(id);
-				}
-				else {
-				throw new DbException("Unexpeced error! No rows Affected");
+				} else {
+					throw new DbException("Unexpeced error! No rows Affected");
 				}
 				DB.closeResultSet(rs);
 			}
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
-		}finally {
+		} finally {
 			DB.closeStatement(st);
 		}
 
@@ -53,7 +52,20 @@ public class DepartmentDaoImplJDBC implements DepartmentDao {
 
 	@Override
 	public void update(Department dp) {
-		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+
+		try {
+			st = conn.prepareStatement("UPDATE department SET Name = ? WHERE id = ?");
+			
+			st.setString(1, dp.getName());
+			st.setInt(2, dp.getId());
+			st.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+		}
 
 	}
 
@@ -83,7 +95,7 @@ public class DepartmentDaoImplJDBC implements DepartmentDao {
 			return null;
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
-		}finally {
+		} finally {
 			DB.closeResultSet(rs);
 			DB.closeStatement(st);
 		}
@@ -94,23 +106,23 @@ public class DepartmentDaoImplJDBC implements DepartmentDao {
 	public List<Department> findAll() {
 		PreparedStatement st = null;
 		ResultSet rs = null;
-		
+
 		try {
 			st = conn.prepareStatement("SELECT * FROM department");
 			rs = st.executeQuery();
-			
+
 			List<Department> list = new ArrayList<>();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				Department dp = instatiateDepartment(rs);
 				list.add(dp);
-				
+
 			}
 			return list;
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		}
-		
+
 	}
 
 	private Department instatiateDepartment(ResultSet rs) throws SQLException {
