@@ -30,7 +30,7 @@ public class Program {
 		for(Seller s : list) {
 			System.out.println(s);
 		}
-		
+	/*	
 		System.out.println("Insert");
 		Seller newSeller = new Seller(null, "Greg", "greg@gmail.com", new Date(), 1000.0, dp);
 		sellerDao.insert(newSeller);
@@ -41,7 +41,9 @@ public class Program {
 		seller.setName("Marta Waine");
 		sellerDao.update(seller);
 		System.out.println("Update completed");
-		
+	*/	
+		System.out.println("Delete por id");
+		sellerDao.deleteById(5);
 	}
 
 }
